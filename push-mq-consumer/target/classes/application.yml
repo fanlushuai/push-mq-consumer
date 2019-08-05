@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: mq-consumer
+
+  rabbitmq:
+    addresses: your-mq-addresse
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://172.1.1.1:3306/test?useUnicode=true&amp;characterEncoding=UTF-8
+    username: root
+    password: root
