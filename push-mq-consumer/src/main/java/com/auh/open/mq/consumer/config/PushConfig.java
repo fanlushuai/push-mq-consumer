@@ -7,9 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.util.ResourceUtils;
+import org.springframework.core.io.ClassPathResource;
 
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -54,11 +53,10 @@ public class PushConfig {
     @Bean
     public ApnsClient apnsClient() throws IOException {
         //todo 请替换自己的证书
-        File file = ResourceUtils.getFile("classpath:cer.p12");
         //注意，配置上采用了线上的证书和推送地址。因为ios是基于token的推送。所以。只要控制别全推就是安全的。
         ApnsClient apnsClient = new ApnsClientBuilder()
                 .setApnsServer(ApnsClientBuilder.PRODUCTION_APNS_HOST)
-                .setClientCredentials(file, "pw")
+                .setClientCredentials(new ClassPathResource("cer.p12").getInputStream(), "pw")
                 .build();
         return apnsClient;
     }
