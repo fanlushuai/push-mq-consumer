@@ -175,6 +175,32 @@
         </resources>
 
         <plugins>
+
+            <!-- 读取本地的git信息，使用git email作为vhost的值，当spring环境变量是dev的时候，个人本地消费者和测试公用环境隔离-->
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <!--.git位置-->
+                            <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+                            <skipPoms>false</skipPoms>
+                            <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                            <generateGitPropertiesFilename>${project.build.outputDirectory}/application-git.properties
+                            </generateGitPropertiesFilename>
+                            <!--找不到git,相当于忽略-->
+                            <failOnNoGitDirectory>false</failOnNoGitDirectory>
+                        </configuration>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

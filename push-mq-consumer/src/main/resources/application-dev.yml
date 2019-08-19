@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: mq-consumer
+
+  profiles:
+    # 包含git的环境信息
+    include: dev,git
+
+  rabbitmq:
+    addresses: your-mq-addresse
+    port: 5672
+    username: guest
+    password: guest
+    #dev环境读取maven的git插件生成的git信息（本地git用户的邮箱），作为vhost的空间。使得本地和dohko隔离
+    virtual-host: ${git.build.user.email}
+
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://172.1.1.1:3306/test?useUnicode=true&amp;characterEncoding=UTF-8
+    username: root
+    password: root
