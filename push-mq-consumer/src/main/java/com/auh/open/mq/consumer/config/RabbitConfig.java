@@ -1,6 +1,8 @@
 package com.auh.open.mq.consumer.config;
 
 import brave.Tracing;
+import brave.context.slf4j.MDCScopeDecorator;
+import brave.propagation.ThreadLocalCurrentTraceContext;
 import brave.spring.rabbit.SpringRabbitTracing;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AcknowledgeMode;
@@ -89,7 +91,9 @@ public class RabbitConfig implements RabbitListenerConfigurer {
     @Bean
     public Tracing tracing() {
         return Tracing.newBuilder()
-                .localServiceName("spring-amqp-producer")
+                .localServiceName("rabbitmq")
+                .currentTraceContext(ThreadLocalCurrentTraceContext.newBuilder()
+                        .addScopeDecorator(MDCScopeDecorator.create()).build())
                 .build();
     }
 
