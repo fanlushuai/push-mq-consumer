@@ -6,6 +6,7 @@ import com.auh.open.mq.common.consts.RouteKey;
 import com.auh.open.mq.common.dto.push.PushAllDTO;
 import com.auh.open.mq.common.dto.push.PushByTagDTO;
 import com.auh.open.mq.common.dto.push.PushByTokenDTO;
+import com.auh.open.mq.consumer.config.RabbitConfig;
 import com.auh.open.mq.consumer.service.PushService;
 import com.auh.open.mq.consumer.util.AckUtil;
 import com.rabbitmq.client.Channel;
@@ -29,7 +30,7 @@ import org.springframework.util.CollectionUtils;
                 value = @Queue(value = QueueName.PRE_PUSH)
         ),
         concurrency = "10-15",
-        containerFactory = "AcknowledgeMode.MANUAL"
+        containerFactory = RabbitConfig.ACK_MANNUL
 )
 @Slf4j
 @Service
@@ -40,8 +41,6 @@ public class PrePushListener {
 
     @RabbitHandler
     public void pushByToken(PushByTokenDTO pushByTokenDTO, Message message, Channel channel) {
-        log.info("pushByToken{}", pushByTokenDTO);
-
         if (CollectionUtils.isEmpty(pushByTokenDTO.getPushTokens())) {
             log.error("可能存在错误，pushToken is null");
             AckUtil.rejectNotRequeue(message, channel);
@@ -56,14 +55,12 @@ public class PrePushListener {
 
     @RabbitHandler
     public void pushAll(PushAllDTO pushAllDTO, Message message, Channel channel) {
-        log.info("pushAll{}", pushAllDTO);
         pushService.push(pushAllDTO);
         AckUtil.ack(message, channel);
     }
 
     @RabbitHandler
     public void pushByTag(PushByTagDTO pushByTagDTO, Message message, Channel channel) {
-        log.info("pushByTag{}", pushByTagDTO);
         pushService.push(pushByTagDTO);
         AckUtil.ack(message, channel);
 

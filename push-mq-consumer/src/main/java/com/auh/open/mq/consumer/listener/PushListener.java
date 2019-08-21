@@ -4,6 +4,7 @@ import com.auh.open.mq.common.consts.ExchangeName;
 import com.auh.open.mq.common.consts.QueueName;
 import com.auh.open.mq.common.consts.RouteKey;
 import com.auh.open.mq.common.dto.push.PushDTO;
+import com.auh.open.mq.consumer.config.RabbitConfig;
 import com.auh.open.mq.consumer.service.PushService;
 import com.auh.open.mq.consumer.util.AckUtil;
 import com.rabbitmq.client.Channel;
@@ -27,7 +28,7 @@ import org.springframework.stereotype.Service;
                 value = @Queue(value = QueueName.PUSH)
         ),
         concurrency = "10-15",
-        containerFactory = "AcknowledgeMode.MANUAL"
+        containerFactory = RabbitConfig.ACK_MANNUL
 )
 @Slf4j
 @Service
