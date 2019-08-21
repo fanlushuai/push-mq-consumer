@@ -2,6 +2,7 @@ package com.auh.open.mq.common.dto.push;
 
 import lombok.*;
 
+import java.util.Map;
 import java.util.Set;
 
 @Getter
@@ -18,7 +19,7 @@ public class PushByTokenDTO extends BasePushDTO {
     Set<String> pushTokens;
 
     @Builder
-    public PushByTokenDTO(String title, String content, String desc, String link, Long createTime, Long sendTime, Long expiredTime, String platform, String pushId, Custom custom, Set<String> pushTokens) {
+    public PushByTokenDTO(String title, String content, String desc, String link, Long createTime, Long sendTime, Long expiredTime, String platform, String pushId, Map<String, String> custom, Set<String> pushTokens) {
         super(title, content, desc, link, createTime, sendTime, expiredTime, platform, pushId, custom);
         this.pushTokens = pushTokens;
     }

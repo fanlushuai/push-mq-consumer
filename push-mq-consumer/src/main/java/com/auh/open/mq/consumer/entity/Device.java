@@ -99,5 +99,11 @@ public class Device implements Serializable {
     @TableField("update_time")
     private Long updateTime;
 
+    /**
+     * 设备的推送设置，当设备无用户登录的时候，使用
+     */
+    @TableField("device_push_settings")
+    private Long devicePushSettings;
+
 
 }

@@ -29,7 +29,7 @@ import org.springframework.util.CollectionUtils;
                 key = RouteKey.PRE_PUSH,
                 value = @Queue(value = QueueName.PRE_PUSH)
         ),
-        concurrency = "10-15",
+        concurrency = "1-5",
         containerFactory = RabbitConfig.ACK_MANNUL
 )
 @Slf4j
@@ -38,20 +38,6 @@ public class PrePushListener {
 
     @Autowired
     private PushService pushService;
-
-    @RabbitHandler
-    public void pushByToken(PushByTokenDTO pushByTokenDTO, Message message, Channel channel) {
-        if (CollectionUtils.isEmpty(pushByTokenDTO.getPushTokens())) {
-            log.error("可能存在错误，pushToken is null");
-            AckUtil.rejectNotRequeue(message, channel);
-        }
-        try {
-            pushService.push(pushByTokenDTO);
-            AckUtil.ack(message, channel);
-        } catch (Exception e) {
-            log.error("消息确认异常");
-        }
-    }
 
     @RabbitHandler
     public void pushAll(PushAllDTO pushAllDTO, Message message, Channel channel) {
@@ -63,7 +49,6 @@ public class PrePushListener {
     public void pushByTag(PushByTagDTO pushByTagDTO, Message message, Channel channel) {
         pushService.push(pushByTagDTO);
         AckUtil.ack(message, channel);
-
     }
 
 

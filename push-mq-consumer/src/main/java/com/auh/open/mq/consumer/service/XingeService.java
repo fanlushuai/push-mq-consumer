@@ -20,17 +20,17 @@ import java.util.*;
 @Slf4j
 public class XingeService {
 
-    private static final String RET_CODE = "ret_code";
-
-    private static final int XINGE_SUSSES_CODE = 0;
-
-    private static final int XINGE_UNFOUNDTAG_CODE = 11408;
-
     @Autowired
     private EnvConfig envConfig;
 
     @Autowired
     private XingeApp androidXingeApp;
+
+    private static final String RET_CODE = "ret_code";
+
+    private static final int XINGE_SUSSES_CODE = 0;
+
+    private static final int XINGE_UNFOUNDTAG_CODE = 11408;
 
     public XingeApp getXingeApp(Platform platform) {
         if (Platform.android.equals(platform)) {
@@ -42,10 +42,15 @@ public class XingeService {
 
     private Message buildAndroidMessage(BasePushDTO basePushDTO) {
         MessageAndroid messageAndroid = new MessageAndroid();
+
         Map<String, String> map = new HashMap<>();
         map.put("link", basePushDTO.getLink());
         map.put("pushId", basePushDTO.getPushId());
+        if (basePushDTO.getCustom() != null) {
+            map.putAll(basePushDTO.getCustom());
+        }
         messageAndroid.setCustom_content(map);
+
         ClickAction action = new ClickAction();
 
         messageAndroid.setAction(action);
@@ -67,17 +72,6 @@ public class XingeService {
         message.setAndroid(messageAndroid);
 //        message.setAccept_time();
         return message;
-    }
-
-    public boolean pushByToken(PushDTO pushDTO) {
-
-        PushByTokenDTO pushByTokenDTO = new PushByTokenDTO();
-        BeanUtils.copyProperties(pushDTO, pushByTokenDTO);
-        Set set = new HashSet<>(1);
-        set.add(pushDTO.getToken());
-        pushByTokenDTO.setPushTokens(set);
-
-        return pushByTokens(pushByTokenDTO);
     }
 
     public boolean pushByTokens(PushByTokenDTO pushByTokenDTO) {

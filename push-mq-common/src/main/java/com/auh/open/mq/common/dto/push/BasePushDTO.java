@@ -4,10 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+import java.util.Map;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public abstract class BasePushDTO {
+public abstract class BasePushDTO implements Serializable {
 
     public String title;
 
@@ -27,10 +30,6 @@ public abstract class BasePushDTO {
 
     String pushId;
 
-    Custom custom;
-
-    static class Custom {
-
-    }
+    Map<String, String> custom;
 
 }
