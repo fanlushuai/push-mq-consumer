@@ -1,0 +1,38 @@
+version: 2
+updates:
+- package-ecosystem: maven
+  directory: "/"
+  schedule:
+    interval: daily
+    timezone: Asia/Shanghai
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: io.netty:netty-tcnative-boringssl-static
+    versions:
+    - 2.0.36.Final
+    - 2.0.38.Final
+  - dependency-name: net.javacrumbs.shedlock:shedlock-spring
+    versions:
+    - 4.20.0
+    - 4.20.1
+    - 4.21.0
+    - 4.22.0
+    - 4.22.1
+  - dependency-name: net.javacrumbs.shedlock:shedlock-provider-redis-spring
+    versions:
+    - 4.20.0
+    - 4.20.1
+    - 4.21.0
+    - 4.22.0
+    - 4.22.1
+  - dependency-name: com.alibaba:druid-spring-boot-starter
+    versions:
+    - 1.2.4
+    - 1.2.5
+  - dependency-name: org.springframework.cloud:spring-cloud-dependencies
+    versions:
+    - Hoxton.SR10
+    - Hoxton.SR9
+  - dependency-name: org.apache.velocity:velocity-engine-core
+    versions:
+    - "2.2"
